@@ -1,0 +1,28 @@
+{
+  "name": "homewreck-live",
+  "version": "1.0.0",
+  "description": "simple voting system for homewreck show",
+  "main": "index.js",
+  "scripts": {
+    "build": "next build",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cachilders/homewreck-live.git"
+  },
+  "author": "handsome-boys",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cachilders/homewreck-live/issues"
+  },
+  "homepage": "https://github.com/cachilders/homewreck-live#readme",
+  "dependencies": {
+    "isomorphic-unfetch": "^3.0.0",
+    "next": "^9.3.4",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "serverless-mysql": "^1.5.4",
+    "sql-template-strings": "^2.2.2"
+  }
+}
