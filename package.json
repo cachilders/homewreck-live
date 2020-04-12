@@ -4,7 +4,9 @@
   "description": "simple voting system for homewreck show",
   "main": "index.js",
   "scripts": {
+    "dev": "next",
     "build": "next build",
+    "start": "next start",
     "test": "test"
   },
   "repository": {
