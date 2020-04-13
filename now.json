@@ -1,8 +1,5 @@
 {
   "env": {
-    "MYSQL_DATABASE": "@mysql_database",
-    "SQL_HOMEWRECK_1_IP": "@sql_homewreck_1_ip",
-    "SQL_HOMEWRECK_1_USERNAME": "@sql_homewreck_1_username",
-    "SQL_HOMEWRECK_1_PASSWORD": "@sql_homewreck_1_password"
+    "MYSQL_DATABASE": "@mysql_database"
   }
 }
