@@ -1,28 +1,37 @@
+const db = require('../../lib/db')
+const escape = require('sql-template-strings')
+
 function redirectTo (res, path) {
   res.writeHead(307, { Location: path })
   res.end()
 }
 
-function findUser (email) {
-  // FIXME: This is a stub, use real information when we have the DB.
-  return {
-    totalVotes: 3,
-    votesCast: 3,
-  }
+async function findUser (email) {
+  // Normalize email by downcasing it and stripping whitespace
+  email = email.toLowerCase().trim()
+
+  const userResult = await db.query(escape`SELECT * FROM voters WHERE email = ${email} LIMIT 1`)
+  return userResult[0]
 }
 
-export default (req, res) => {
+module.exports = async (req, res) => {
   if (req.method === 'POST') {
     let email = req.body.email;
     if (email === undefined) {
-      let errorMessage = "Missing email!"
+      let errorMessage = "You didn't enter your email address."
       redirectTo(res, `/?error=${encodeURI(errorMessage)}`)
       return
     }
 
-    let user = findUser(email)
+    let user = await findUser(email)
 
-    if ( user.votesCast >= user.totalVotes ) {
+    if (user === undefined) {
+      let errorMessage = "You aren't registered to vote."
+      redirectTo(res, `/?error=${encodeURI(errorMessage)}`)
+      return
+    }
+
+    if ( user.votes_made >= user.total_votes ) {
       redirectTo(res, "/thank-you")
     } else {
       redirectTo(res, "/ballot")
