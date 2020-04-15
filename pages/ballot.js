@@ -3,7 +3,7 @@ import { useState } from 'react'
 
 Ballot.getInitialProps = async ({ req, query }) => {
   const protocol = req
-    ? `${req.headers['x-forwarded-proto'] || req.headers['referer'].match(/https?/)[0]}:`
+    ? `${req.headers['x-forwarded-proto'] || 'http'}:`
     : location.protocol
   const host = req ? req.headers['x-forwarded-host'] || req.headers['host'] : location.host
   const res = await fetch(`${protocol}//${host}/api/ballot`)
@@ -11,32 +11,36 @@ Ballot.getInitialProps = async ({ req, query }) => {
   return {
     protocol,
     host,
-    voterId: query.user,
+    voterId: query.sup,
     ...json,
   }
 }
 
 const chevron = <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
 
-function Ballot({stories, voterId = 2, protocol, host}) {
+function Ballot({stories, voterId, protocol, host}) {
   const [votes, setVotes] = useState({ first: '', second: '', third: '' })
   const { first, second, third } = votes;
   const selected = Object.values(votes);
+  const voteDisabled = selected.includes('');
   const handleSelect = ({target: { id, value } }) => setVotes({ ...votes, [id]: value})
   const options = stories.map(({ id, name }) => (
     <option key={id} value={id} disabled={selected.includes(id.toString())}>{name}</option>
   ))
   const castVote = async () => {
     const res = await fetch(`${protocol}//${host}/api/vote`, {
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
       method: 'POST',
-      mode: 'cors',
+      mode: 'no-cors',
       body: JSON.stringify({
         votes: { first, second, third },
         voterId: voterId
       })
     })
     const json = await res.json()
-    console.log(json)
+    console.log(JSON.parse(json))
   }
   
   return (
@@ -85,7 +89,12 @@ function Ballot({stories, voterId = 2, protocol, host}) {
           </div>
         </div>
         <div className="flex items-center justify-between">
-          <button className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline" type="submit" onClick={castVote}>
+          <button
+            className={`${voteDisabled ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-600'} text-white font-bold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline`}
+            type="submit"
+            onClick={castVote}
+            disabled={voteDisabled}
+          >
             Cast
           </button>
         </div>
