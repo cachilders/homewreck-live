@@ -40,7 +40,7 @@ function Ballot({stories, voterId, protocol, host}) {
       })
     })
     const json = await res.json()
-    console.log(JSON.parse(json))
+    console.log(json)
   }
   
   return (
