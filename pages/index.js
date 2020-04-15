@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import ImageCard from './components/ImageCard';
 
 Index.getInitialProps = async ({ query }) => {
   return { error: query.error }
@@ -6,8 +7,8 @@ Index.getInitialProps = async ({ query }) => {
 
 function Index ({ error }) {
   let errorMessage = error ? (
-    <div class="bg-red-100 border border-red-400 text-red-700 px-3 py-4 mb-3 rounded relative" role="alert">
-      <span class="block sm:inline">{ error }</span>
+    <div className="bg-red-100 border border-red-400 text-red-700 px-3 py-4 mb-3 rounded relative text-center" role="alert">
+      <span className="block sm:inline">{ error }</span>
     </div>
   ) : null
 
@@ -17,14 +18,7 @@ function Index ({ error }) {
         <title>Homewreck: Emma - Login to vote</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
-
-      <div>
-        <img className="object-scale-down h-48 w-full" src="/images/sw_logo.jpg" />
-      </div>
-      <h1 className="text-black-700 leading-normal text-center">
-        Homewreck: <b>Emma</b>
-      </h1>
-
+      <ImageCard subtext={'Identify yourself'} />
       <div className="mt-10">
         { errorMessage }
         <form className="bg-gray-100 border shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/api/login" method="post">

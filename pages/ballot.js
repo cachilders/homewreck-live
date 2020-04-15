@@ -1,6 +1,8 @@
 import fetch from 'isomorphic-unfetch'
 import Router from 'next/router'
+import Head from 'next/head'
 import { useState, useEffect } from 'react'
+import ImageCard from './components/ImageCard';
 
 Ballot.getInitialProps = async ({ req, query }) => {
   const id = query && query.shipster
@@ -65,105 +67,104 @@ function Ballot({stories = [], voter = {}, protocol, host}) {
   
   useEffect(() => {
     if (!voter.id) Router.push('/')
+    if (maxVotes < 1) Router.push('/thank-you')
   });
 
   return (
     <div className="w-full max-w-xs m-auto mt-10">
-      <div class="max-w-sm rounded overflow-hidden shadow-lg">
-        <img class="w-full" src="/images/sw_logo.jpg" alt="It'll be weird" />
-        <div class="px-6 py-4">
-          <div class="font-bold text-xl mb-2">Your Ballot</div>
-          <p class="text-gray-700 text-base">
-            OK. Listen. You bought {totalVotes} votes, and you've got {maxVotes} remaining.
-          </p>
-        </div>
+      <Head>
+        <title>Homewreck: Emma - Your ballot</title>
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+      </Head>
+      <ImageCard subtext={`OK. Listen. You bought ${totalVotes} votes, and you've got ${maxVotes} remaining.`} />
+      <div className="mt-10">
+        <form className="bg-gray-100 border shadow-md rounded px-8 pt-6 pb-8 mb-4">
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first">
+              Most Favorite
+            </label>
+            <div className="inline-block relative w-64">
+              <select
+                value={first} onChange={handleSelect}
+                id="first"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option disabled value='' />
+                {options}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                {chevron}
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="second">
+              Second Most Favorite
+            </label>
+            <div className="inline-block relative w-64">
+              <select
+                value={second}
+                onChange={handleSelect}
+                id="second"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option disabled value='' />
+                {options}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                {chevron}
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="third">
+              Third Most Favorite
+            </label>
+            <div className="inline-block relative w-64">
+              <select
+                value={third}
+                onChange={handleSelect}
+                id="third"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                <option disabled value='' />
+                {options}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                {chevron}
+              </div>
+            </div>
+          </div>
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="third">
+              Number of votes to use on this ballot
+            </label>
+            <div className="inline-block relative w-64">
+              <select
+                value={multiplier}
+                onChange={handleSelect}
+                id="multiplier"
+                className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+              >
+                {maxVotes && Array.from(Array(maxVotes).keys()).map((v) => <option value={v+1}>{v+1}</option>)}
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                {chevron}
+              </div>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <button
+              className={`${voteDisabled ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-600'} text-white font-bold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline`}
+              type="button"
+              onClick={castVote}
+              disabled={voteDisabled}
+            >
+              Cast it!
+            </button>
+          </div>
+        </form>
       </div>
-      <form className="bg-gray-100 border shadow-md rounded px-8 pt-6 pb-8 mb-4">
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="first">
-            Most Favorite
-          </label>
-          <div className="inline-block relative w-64">
-            <select
-              value={first} onChange={handleSelect}
-              id="first"
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option disabled value='' />
-              {options}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              {chevron}
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="second">
-            Second Most Favorite
-          </label>
-          <div className="inline-block relative w-64">
-            <select
-              value={second}
-              onChange={handleSelect}
-              id="second"
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option disabled value='' />
-              {options}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              {chevron}
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="third">
-            Third Most Favorite
-          </label>
-          <div className="inline-block relative w-64">
-            <select
-              value={third}
-              onChange={handleSelect}
-              id="third"
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-            >
-              <option disabled value='' />
-              {options}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              {chevron}
-            </div>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="third">
-            Number of votes to use on this ballot
-          </label>
-          <div className="inline-block relative w-64">
-            <select
-              value={multiplier}
-              onChange={handleSelect}
-              id="multiplier"
-              className="block appearance-none w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 pr-8 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-            >
-              {maxVotes && Array.from(Array(maxVotes).keys()).map((v) => <option value={v+1}>{v+1}</option>)}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-              {chevron}
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center justify-between">
-          <button
-            className={`${voteDisabled ? 'bg-gray-500' : 'bg-red-500 hover:bg-red-600'} text-white font-bold py-2 px-4 w-full rounded focus:outline-none focus:shadow-outline`}
-            type="button"
-            onClick={castVote}
-            disabled={voteDisabled}
-          >
-            Cast it!
-          </button>
-        </div>
-      </form>
     </div>
   )
 }
