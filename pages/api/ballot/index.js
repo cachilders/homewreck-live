@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
         total_votes,
         votes_made
       FROM voters
-      WHERE id = ${parseInt(id)}
+      WHERE uuid = ${id}
     `);
     const stories = await db.query(escape`
       SELECT
@@ -23,4 +23,4 @@ module.exports = async (req, res) => {
   } catch (error) {
     res.status(500).json({ error, message: 'Something went wrong getting the stories '});
   }
- }; 
+ };
