@@ -26,5 +26,9 @@
     "react-dom": "^16.13.1",
     "serverless-mysql": "^1.5.4",
     "sql-template-strings": "^2.2.2"
+  },
+  "devDependencies": {
+    "postcss-preset-env": "^6.7.0",
+    "tailwindcss": "^1.2.0"
   }
 }
