@@ -34,7 +34,7 @@ module.exports = async (req, res) => {
     if ( user.votes_made >= user.total_votes ) {
       redirectTo(res, "/thank-you")
     } else {
-      redirectTo(res, "/ballot")
+      redirectTo(res, `/ballot?shipster=${user.uuid}`)
     }
   } else {
     // If we don't have a POST request we'd like to redirect to login
