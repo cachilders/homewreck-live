@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
         ON st.id = v.stories_id
       GROUP BY 1 ORDER BY 2 DESC
     `);
-    res.status(200).json({ votingResults});
+    res.status(200).json({ votingResults });
   } catch (error) {
     res.status(500).json({ error, message: 'Something went wrong submitting your vote'});
   }
