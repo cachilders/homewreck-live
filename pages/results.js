@@ -12,7 +12,7 @@ Results.getInitialProps = async ({ req }) => {
   return json;
 }
 
-export default function Results({ error, votingResults }) {
+export default function Results({ votingResults, voteStats }) {
   return (
     <div className="w-full max-w-xs m-auto mt-10">
       <Head>
@@ -20,20 +20,35 @@ export default function Results({ error, votingResults }) {
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ImageCard subtext="The results are in!"/>
-      <table class="table-auto m-auto mt-10">
+      <div className="px-8 pt-8 mb-4">
+        <p className="text-gray-700 text-base text-center">
+          <div>
+            Total Votes: {voteStats.total_votes}
+          </div>
+          <div>
+            Remaining Votes: {voteStats.remaining_votes}
+          </div>
+        </p>
+      </div>
+      <table className="table-auto m-auto mt-10">
         <thead>
           <tr>
-            <th class="px-4 py-2">Story</th>
-            <th class="px-4 py-2">Score</th>
+            <th className="px-4 py-2">Story</th>
+            <th className="px-4 py-2">Score</th>
           </tr>
         </thead>
         <tbody>
-          {votingResults.map(({ name, score }) => (
-            <tr>
-              <td class="border px-4 py-2">{name}</td>
-              <td class="border px-4 py-2">{score}</td>
-            </tr>
-          ))}
+          {votingResults.map(({ name, score }, i) => {
+            const className = i % 2 > 0
+              ? 'bg-gray-100'
+              : null;
+            return (
+              <tr className={className}>
+                <td className="border px-4 py-2">{name}</td>
+                <td className="border px-4 py-2">{score}</td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
     </div>

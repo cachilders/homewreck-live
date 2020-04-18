@@ -12,8 +12,19 @@ module.exports = async (req, res) => {
         ON st.id = v.stories_id
       GROUP BY 1 ORDER BY 2 DESC
     `);
-    res.status(200).json({ votingResults });
+
+    const voteStats = await db.query(escape`
+      SELECT
+        sum(total_votes) AS total_votes,
+        sum(total_votes - votes_made) AS remaining_votes
+      FROM voters
+    `);
+
+    res.status(200).json({
+      votingResults,
+      voteStats: voteStats[0],
+    });
   } catch (error) {
-    res.status(500).json({ error, message: 'Something went wrong submitting your vote'});
+    res.status(500).json({ error, message: 'Something went wrong retreiving results'});
   }
 };
