@@ -1,21 +1,10 @@
-Just a shell a la https://zeit.co/guides/deploying-next-and-mysql-with-now
+Homewreck is a live event with ranked voting and ballot stuffing.
+This is the ballots.
+Mistakes have been made.
 
-node 8 apparently
+nextjs deployed to now with serverless calls to cloud sql
 
-...
+LOCAL:
 
-FE /
-* form POST => /login { email }
-* query params
-** error
-** message
-
-API /login
-* 200 respone => redirect to /ballot?email=<email_salty> || /thank_you
-* 400 response => redirect to /?error=<error>&message=<message>
-
-FE /ballot?email=<email_salty>
-* GET request from /user?email=<email_salty>
-* GET request from /stories
-** present form with 3 different select/options
-A plan is just a list of things that won't happen.
+- .env config stuff TBD (this is busted ATM)
+- `npmi && npm run dev`
