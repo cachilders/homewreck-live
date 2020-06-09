@@ -18,7 +18,7 @@ function Index({ error }) {
   return (
     <div className="w-full max-w-xs m-auto mt-10 p-4">
       <Head>
-        <title>Homewreck: Emma - Login to vote</title>
+        <title>Homewreck: Dracula - Login to vote</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ImageCard subtext={'Identify yourself'} />

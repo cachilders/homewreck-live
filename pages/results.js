@@ -18,7 +18,7 @@ export default function Results({ votingResults, voteStats }) {
   return (
     <div className="w-full max-w-xs m-auto mt-10">
       <Head>
-        <title>Homewreck: Emma - Voting Results</title>
+        <title>Homewreck: Dracula - Voting Results</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ImageCard subtext="The results are in!" />

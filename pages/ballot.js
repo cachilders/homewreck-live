@@ -79,7 +79,7 @@ function Ballot({ stories = [], voter = {}, protocol, host }) {
   return (
     <div className="w-full max-w-xs m-auto mt-10">
       <Head>
-        <title>Homewreck: Emma - Your ballot</title>
+        <title>Homewreck: Dracula - Your ballot</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
       </Head>
       <ImageCard
